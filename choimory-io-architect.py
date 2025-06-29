@@ -12,14 +12,15 @@ from diagrams.aws.compute import EC2
 from diagrams.aws.storage import S3
 
 
-with Diagram("choimory-io", show=False, direction="TB"):
+with Diagram("choimory-io", direction="BT"):
     user = Users("user")
 
-    with Cluster("Web"):
-        front = Nextjs("client")
-        user >> front
-
     with Cluster("Docker"):
+    
+        with Cluster("Web"):
+            front = Nextjs("client")
+            user >> front
+            
         with Cluster("API Gateway"):
             gateway = Java("api-gateway")
             front >> gateway
