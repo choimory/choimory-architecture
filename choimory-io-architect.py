@@ -16,7 +16,6 @@ with Diagram("choimory-io", direction="BT"):
     user = Users("user")
 
     with Cluster("Docker"):
-    
         with Cluster("Web"):
             front = Nextjs("client")
             user >> front
