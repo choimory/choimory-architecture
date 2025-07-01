@@ -42,16 +42,21 @@ with Diagram("choimory-io", direction="BT"):
         with Cluster("Broker"):
             broker = Rabbitmq("broker")
 
-            member_command >> broker
-            member_query >> broker
-            memo_command >> broker
-            memo_query >> broker 
+            member_api >> broker
+            memo_api >> broker
+
+        with Cluster("Sync-Worker"):
+            worker = Java("sync-worker")
+
+            broker >> worker
+            worker >> member_command
+            worker >> member_query
+            worker >> memo_command
+            worker >> memo_query    
+
 
     with Cluster("CI"):
         github = Github("github")
-        #front >> github
-        #member_api >> github
-        #memo_api >> github  
 
         github_actions = GithubActions("github-actions")
         github >> github_actions
