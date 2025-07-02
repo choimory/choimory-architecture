@@ -32,18 +32,6 @@ with Diagram("choimory-io", direction="TB"):
         
         front >> member_cqrs
 
-        member_cqrs >> member_command
-        member_cqrs >> member_query
-        member_cqrs >> member_redis
-
-        member_grpc >> member_command
-        member_grpc >> member_query
-        member_grpc >> member_redis
-
-        member_event >> member_command
-        member_event >> member_query
-        member_event >> member_redis
-
     with Cluster("Memo"):
         memo_cqrs = Nodejs("memo-cqrs")
         memo_grpc = Nodejs("memo-grpc")
@@ -54,20 +42,8 @@ with Diagram("choimory-io", direction="TB"):
         memo_redis = Redis("memo-redis")
 
         front >> memo_cqrs
-
-        memo_cqrs >> memo_command
-        memo_cqrs >> memo_query
-        memo_cqrs >> memo_redis
-
-        memo_grpc >> memo_command
-        memo_grpc >> memo_query
-        memo_grpc >> memo_redis
-
-        memo_event >> memo_command
-        memo_event >> memo_query
-        memo_event >> memo_redis
-
-        memo_grpc >> member_grpc >> memo_grpc
+        memo_cqrs >> member_grpc
+        member_cqrs >> memo_grpc
     
     with Cluster("Board"):
         board_cqrs = Kotlin("board-cqrs")
@@ -79,28 +55,17 @@ with Diagram("choimory-io", direction="TB"):
         board_redis = Redis("board-redis")
 
         front >> board_cqrs
-
-        board_cqrs >> board_command
-        board_cqrs >> board_query
-        board_cqrs >> board_redis
-
-        board_grpc >> board_command
-        board_grpc >> board_query
-        board_grpc >> board_redis
-
-        board_event >> board_command
-        board_event >> board_query
-        board_event >> board_redis
-
-        board_grpc >> member_grpc >> board_grpc
-        board_grpc >> memo_grpc >> board_grpc
+        member_cqrs >> board_grpc
+        memo_cqrs >> board_grpc
+        board_cqrs >> member_grpc
+        board_cqrs >> memo_grpc
 
     with Cluster("Message broker"):
         broker = Rabbitmq("broker")
-
-        member_event >> broker >> member_event
-        memo_event >> broker >> memo_event
-        board_event >> broker >> board_event
+        
+        member_event >> broker
+        memo_event >> broker
+        board_event >> broker
 
     with Cluster("CI"):
         github = Github("github")
