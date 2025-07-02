@@ -36,3 +36,7 @@ touch choimory-io-architect.py
 # 종료
 
 `deactivate`
+
+# architect
+
+![architect](./choimory-io.png)
