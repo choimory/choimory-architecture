@@ -12,7 +12,7 @@ from diagrams.aws.compute import EC2
 from diagrams.aws.storage import S3
 from diagrams.elastic.elasticsearch import Elasticsearch
 from diagrams.onprem.inmemory import Redis
-
+from diagrams.firebase.grow import FCM
 
 with Diagram("choimory-io", direction="TB"):
     user = Users("user")
@@ -31,19 +31,6 @@ with Diagram("choimory-io", direction="TB"):
         member_redis = Redis("member-redis")
         
         front >> member_cqrs
-
-    with Cluster("Memo"):
-        memo_cqrs = Nodejs("memo-cqrs")
-        memo_grpc = Nodejs("memo-grpc")
-        memo_event = Nodejs("memo-event")
-
-        memo_command = Postgresql("memo-command")
-        memo_query = MongoDB("memo-query")
-        memo_redis = Redis("memo-redis")
-
-        front >> memo_cqrs
-        memo_cqrs >> member_grpc
-        member_cqrs >> memo_grpc
     
     with Cluster("Board"):
         board_cqrs = Kotlin("board-cqrs")
@@ -55,17 +42,40 @@ with Diagram("choimory-io", direction="TB"):
         board_redis = Redis("board-redis")
 
         front >> board_cqrs
-        member_cqrs >> board_grpc
-        memo_cqrs >> board_grpc
-        board_cqrs >> member_grpc
-        board_cqrs >> memo_grpc
+
+    with Cluster("Memo"):
+        memo_cqrs = Nodejs("memo-cqrs")
+        memo_grpc = Nodejs("memo-grpc")
+        memo_event = Nodejs("memo-event")
+
+        memo_command = Postgresql("memo-command")
+        memo_query = MongoDB("memo-query")
+        memo_redis = Redis("memo-redis")
+
+        front >> memo_cqrs
+
+    with Cluster("Notification"):
+        noti_cqrs = Nodejs("noti-cqrs")
+        noti_socket = Nodejs("noti-socket")
+        noti_event = Nodejs("noti-event")
+
+        noti_command = Postgresql("noti-command")
+        noti_query = Elasticsearch("noti-query")
+        noti_redis = Redis("noti-redis-pubsub")
+        noti_fcm = FCM("noti-fcm")
+
+        front >> noti_cqrs
+        front - noti_socket
+        noti_event >> noti_redis >> noti_socket
+        noti_event >> noti_fcm
 
     with Cluster("Message broker"):
         broker = Rabbitmq("broker")
-        
-        member_event >> broker
-        memo_event >> broker
-        board_event >> broker
+
+        memo_event - broker
+        board_event - broker
+        member_event - broker
+        noti_event - broker
 
     with Cluster("CI"):
         github = Github("github")
