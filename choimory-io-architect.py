@@ -10,9 +10,10 @@ from diagrams.onprem.ci import GithubActions
 from diagrams.k8s.compute import RS, Pod, Deploy
 from diagrams.aws.compute import EC2
 from diagrams.aws.storage import S3
-from diagrams.elastic.elasticsearch import Elasticsearch
+from diagrams.elastic.elasticsearch import Elasticsearch, LogStash, Kibana
 from diagrams.onprem.inmemory import Redis
 from diagrams.firebase.grow import FCM
+from diagrams.onprem.monitoring import Prometheus, Grafana
 
 with Diagram("choimory-io", direction="TB"):
     user = Users("user")
@@ -76,6 +77,20 @@ with Diagram("choimory-io", direction="TB"):
         board_event - broker
         member_event - broker
         noti_event - broker
+
+    with Cluster("Logging"):
+        logstash = LogStash("logstash")
+        elasticsearch = Elasticsearch("elasticsearch")
+        kibana = Kibana("kibana")
+
+        logstash >> elasticsearch
+        elasticsearch >> kibana        
+
+    with Cluster("Monitoring"):
+        prometheus = Prometheus("prometheus")
+        grafana = Grafana("grafana")
+
+        prometheus >> grafana
 
     with Cluster("CI"):
         github = Github("github")
