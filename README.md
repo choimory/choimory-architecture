@@ -1,8 +1,8 @@
-# choimory-io-architect
+# draw-architect
 
-- choimory-io 구조를 diagrams(https://diagrams.mingrammer.com)코드로 작성
+- 다양한 아키텍쳐들을 diagrams(https://diagrams.mingrammer.com)를 이용해 파이썬 코드로 작성함
 
-# set up
+# 시작 전
 
 ```shell
 # python3
@@ -14,24 +14,45 @@ brew install graphviz
 dot -V
 ```
 
-- brew
+- brew로 python, graphviz 설치
+
+# 아키텍쳐별 디렉토리, 실행파일 및 파이썬 가상환경 생성
 
 ```shell
+mkdir <directory_path>
+cd <directory_path>
+touch <file_name>.py
 python3 -m venv venv
-source venv/bin/activate
-pip install diagrams
-touch choimory-io-architect.py
 ```
 
-- 프로젝트 안에서 파이썬 가상환경 설정
+- 디렉토리 생성 후 파이썬 파일 생성하고 파이썬 가상환경을 설치함
 
-# 시작
+# 디렉토리별 라이브러리 설치
 
-`source venv/bin/activate`
+```shell
+source venv/bin/activate
+pip install diagrams
+```
+
+- 디렉토리안의 가상환경에 파이썬 라이브러리 설치함
+
+# 디렉토리별 가상환경 시작
+
+```shell
+cd <directory_path>
+source venv/bin/activate
+```
+
+- 해당 디렉토리의 가상환경 실행함
 
 # 이미지 생성
 
-`python3 choimory-io-architect.py`
+```shell
+cd <directory_path>
+python3 <file_name>.py
+```
+
+- 파일 실행하여 이미지 생성함
 
 # 종료
 
@@ -39,4 +60,6 @@ touch choimory-io-architect.py
 
 # architect
 
-![architect](./choimory-io.png)
+## choimory-io
+
+![architect](.choimory-io/choimory-io.png)
