@@ -73,10 +73,10 @@ python3 <file_name>.py
 
 ## keycloak flow
 
-![auth-code-flow](./keycloak/keycloak_authorization_code_flow.png)
+![auth-code-flow](./keycloak-flow/keycloak_authorization_code_flow.png)
 
 - auth code flow
 
-![ropc-flow](./keycloak/keycloak_ropc_flow.png)
+![ropc-flow](./keycloak-flow/keycloak_ropc_flow.png)
 
 - ropc flow
