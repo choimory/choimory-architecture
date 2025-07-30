@@ -62,4 +62,4 @@ python3 <file_name>.py
 
 ## choimory-io
 
-![architect](.choimory-io/choimory-io.png)
+![architect](./choimory-io/choimory-io.png)
