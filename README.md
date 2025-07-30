@@ -1,4 +1,4 @@
-# draw-architect
+# draw-my architect
 
 - 다양한 아키텍쳐들을 diagrams(https://diagrams.mingrammer.com) 를 이용해 파이썬 코드로 작성함 (~~draw.io너무 귀찮다~~)
 
