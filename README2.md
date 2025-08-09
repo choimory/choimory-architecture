@@ -1,4 +1,4 @@
-# choimory-architecture
+# choimory-architectures
 
 - 다양한 아키텍쳐들을 diagrams(https://diagrams.mingrammer.com) 를 이용해 파이썬 코드로 작성함 
 - ~~draw.io 너무 귀찮다~~
@@ -60,23 +60,3 @@ python3 <file_name>.py
 ## 종료
 
 `deactivate`
-
----
-
-# architect
-
-## choimory-io
-
-![choimory-io](./choimory-io/choimory-io.png)
-
-- 개인 토이프로젝트 choimory-io의 전체 구성
-
-## keycloak flow
-
-![auth-code-flow](./keycloak-flow/keycloak_authorization_code_flow.png)
-
-- auth code flow
-
-![ropc-flow](./keycloak-flow/keycloak_ropc_flow.png)
-
-- ropc flow
