@@ -23,60 +23,57 @@ with Diagram("choimory-dev", direction="TB"):
         user >> front
 
     with Cluster("Member"):
-        member_cqrs = Kotlin("member-cqrs") # front <-> api
-        member_grpc = Kotlin("member-grpc") # api <-> api (query)
-        member_event = Kotlin("member-event") # api <-> api (command)
+        member_api = Kotlin("member-api") # front <-> api
+        member_queue = Kotlin("member-queue") # api <-> api (command)
 
         member_command = Postgresql("member-command")
         member_query = Elasticsearch("member-query")
         member_redis = Redis("member-redis")
         
-        front >> member_cqrs
+        front >> member_api
     
     with Cluster("Board"):
-        board_cqrs = Kotlin("board-cqrs")
-        board_grpc = Kotlin("board-grpc")
-        board_event = Kotlin("board-event")
+        board_api = Kotlin("board-api")
+        board_queue = Kotlin("board-queue")
 
         board_command = Postgresql("board-command")
         board_query = Elasticsearch("board-query")
         board_redis = Redis("board-redis")
 
-        front >> board_cqrs
+        front >> board_api
 
     with Cluster("Memo"):
-        memo_cqrs = Nodejs("memo-cqrs")
-        memo_grpc = Nodejs("memo-grpc")
-        memo_event = Nodejs("memo-event")
+        memo_api = Nodejs("memo-api")
+        memo_queue = Nodejs("memo-queue")
 
         memo_command = Postgresql("memo-command")
         memo_query = MongoDB("memo-query")
         memo_redis = Redis("memo-redis")
 
-        front >> memo_cqrs
+        front >> memo_api
 
     with Cluster("Notification"):
-        noti_cqrs = Nodejs("noti-cqrs")
+        noti_api = Nodejs("noti-api")
+        noti_queue = Nodejs("noti-queue")
         noti_socket = Nodejs("noti-socket")
-        noti_event = Nodejs("noti-event")
 
         noti_command = Postgresql("noti-command")
         noti_query = Elasticsearch("noti-query")
         noti_redis = Redis("noti-redis-pubsub")
         noti_fcm = FCM("noti-fcm")
 
-        front >> noti_cqrs
+        front >> noti_api
         front - noti_socket
-        noti_event >> noti_redis >> noti_socket
-        noti_event >> noti_fcm
+        noti_queue >> noti_redis >> noti_socket
+        noti_queue >> noti_fcm
 
     with Cluster("Message broker"):
         broker = Rabbitmq("broker")
 
-        memo_event - broker
-        board_event - broker
-        member_event - broker
-        noti_event - broker
+        memo_queue - broker
+        board_queue - broker
+        member_queue - broker
+        noti_queue - broker
 
     with Cluster("Logging"):
         logstash = LogStash("logstash")
