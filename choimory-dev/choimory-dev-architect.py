@@ -15,7 +15,7 @@ from diagrams.onprem.inmemory import Redis
 from diagrams.firebase.grow import FCM
 from diagrams.onprem.monitoring import Prometheus, Grafana
 
-with Diagram("choimory-io", direction="TB"):
+with Diagram("choimory-dev", direction="TB"):
     user = Users("user")
 
     with Cluster("Front"):
