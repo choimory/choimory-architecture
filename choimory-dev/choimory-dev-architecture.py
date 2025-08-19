@@ -1,6 +1,6 @@
 from diagrams import Diagram, Cluster
 from diagrams.onprem.client import Users
-from diagrams.onprem.queue import Rabbitmq
+from diagrams.onprem.queue import Kafka
 from diagrams.programming.language import Kotlin, Nodejs, Java
 from diagrams.programming.framework import Nextjs
 from diagrams.onprem.database import Postgresql, MongoDB
@@ -32,15 +32,15 @@ with Diagram("choimory-dev", direction="TB"):
         
         front >> member_api
     
-    with Cluster("Board"):
-        board_api = Kotlin("board-api")
-        board_queue = Kotlin("board-queue")
+    with Cluster("Article"):
+        article_api = Kotlin("article-api")
+        article_queue = Kotlin("article-queue")
 
-        board_command = Postgresql("board-command")
-        board_query = Elasticsearch("board-query")
-        board_redis = Redis("board-redis")
+        article_command = Postgresql("article-command")
+        article_query = Elasticsearch("article-query")
+        article_redis = Redis("article-redis")
 
-        front >> board_api
+        front >> article_api
 
     with Cluster("Memo"):
         memo_api = Nodejs("memo-api")
@@ -68,10 +68,10 @@ with Diagram("choimory-dev", direction="TB"):
         noti_queue >> noti_fcm
 
     with Cluster("Message broker"):
-        broker = Rabbitmq("broker")
+        broker = Kafka("broker")
 
         memo_queue - broker
-        board_queue - broker
+        article_queue - broker
         member_queue - broker
         noti_queue - broker
 
